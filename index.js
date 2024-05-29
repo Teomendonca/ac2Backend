@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const userController = require('./controllers/autentication/users')
 const loginController = require('./controllers/login')
+const clientController = require('./controllers/client')
 
 const mongoose = require('mongoose')
 const express = require('express')
@@ -16,6 +17,7 @@ const DB_URL = `mongodb+srv://${DB_USER}:${DB_PASS}@{suas informações de conex
 
 servidor.use("/login", loginController)
 servidor.use("/users", userController)
+servidor,use("/clients", clientController)
 
 mongoose.connect(DB_URL)
 .then( () => {

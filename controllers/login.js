@@ -3,6 +3,8 @@ const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const express = require('express')
 
+//Não autenticada 
+
 const loginController = express.Router()
 
 loginController.post("/", async (req, res) => {
