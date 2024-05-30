@@ -5,7 +5,7 @@ const express = require('express')
 
 const userController = express.Router()
 
-userController.post("/users/new", async (req, res) => {
+userController.post("/login ", async (req, res) => {
     var user = req.body
 
     try {

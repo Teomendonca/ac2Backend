@@ -9,24 +9,25 @@ const express = require('express')
 const servidor = express()
 servidor.use(express.json())
 
-const PORT = process.env.PORT
-const DB_NAME = process.env.DB_NAME
-const DB_USER = process.env.DB_USER
-const DB_PASS = process.env.DB_PASS
-const DB_URL = `mongodb+srv://${DB_USER}:${DB_PASS}@{suas informações de conexao}/${DB_NAME}?retryWrites=true&w=majority&appName=crup-app`
+//variavel global
+const PORT = 4200
+const DATABASE_NAME = "Cluster0"
+const DATABASE_USER = "teomendonca1510"
+const DATABASE_PASSWORD = "adm"
+const DATABASE_URL = `mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@cluster0.8rneedh.mongodb.net/${DATABASE_NAME}?retryWrites=true&w=majority&appName=Cluster0`
 
 servidor.use("/login", loginController)
 servidor.use("/users", userController)
-servidor,use("/clients", clientController)
+servidor.use("/clients", clientController)
 
-mongoose.connect(DB_URL)
-.then( () => {
-    console.log("Banco de dados conectado com sucesso")
-    servidor.listen(PORT, () => {
-        console.log(`Servidor rodando na porta ${PORT}`)
+mongoose.connect(DATABASE_URL)
+    .then(() => {
+        console.log("Banco de dados conectado com sucesso")
+        servidor.listen(PORT, () => {
+            console.log(`Servidor rodando na porta ${PORT}`)
+        })
     })
-})
-.catch( (error) => {
-    console.log(`Erro ao conectar no bando de dados. ${error}`)
-}) 
+    .catch((error) => {
+        console.log(`Erro ao conectar no bando de dados. ${error}`)
+    })
 
