@@ -49,17 +49,24 @@ userController.delete("/:email", auth, async (req, res) => {
 
 })
 
-// userController.put("/edit/:id", auth, async (req,res)=>{
-//     const { nome, email, funcao, senha } = req.body;
+userController.put("/edit/:email", auth, async (req,res)=>{
+    var id = req.params._id
+    try {
+        let user = await UserModel.findOne({ id: id })
+        let data = await UserModel.updateOne(
+            user,
+            {$set: req.body}
+        )
+        res.status(200).json({
+            mensagem: "usuário editado",
+            data: data
+        })
 
-//     try {
-
-
-//     } catch (error) {
-
-//     }
-
-// })
+    } catch (error) {
+        console.log(`Um erro ocorreu ao editar usuários. ${error}`)
+        return res.status(500).json({ error: error })
+    }
+})
 
 userController.post("/new", auth, async (req, res) => {
     const { nome, email, funcao, senha } = req.body
