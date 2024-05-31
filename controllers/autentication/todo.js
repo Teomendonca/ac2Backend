@@ -15,6 +15,17 @@ todoController.get("/", auth, async (req, res) => {
     }
 })
 
+todoController.get("/unassigned", auth, async (req, res)=>{
+    try {
+        let unassigned = await TodoModel.find({ assigned: 'null' });
+        return res.status(200).json(unassigned)
+
+    } catch (error) {
+        console.log(`Erro ao buscar  sem responsaveis. ${error}`);
+        return res.status(500).json({ error: error })
+    }
+})
+
 todoController.post("/new", auth, async (req, res) => {
     const { assigned, title, description, done } = req.body
     var todo = {
