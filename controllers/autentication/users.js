@@ -15,6 +15,22 @@ userController.get("/", auth, async (req, res) => {
     }
 })
 
+userController.get("/count", auth, async (req, res) => {
+    try {
+        let countU = await UserModel.aggregate([
+            {
+                $group: {
+                    _id: '$funcao',
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+        res.status(201).json(countU);
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+})
+
 userController.get("/:email", auth, async (req, res) => {
     var email = req.params.email
 
@@ -49,13 +65,13 @@ userController.delete("/:email", auth, async (req, res) => {
 
 })
 
-userController.put("/edit/:email", auth, async (req,res)=>{
+userController.put("/edit/:email", auth, async (req, res) => {
     var id = req.params._id
     try {
         let user = await UserModel.findOne({ id: id })
         let data = await UserModel.updateOne(
             user,
-            {$set: req.body}
+            { $set: req.body }
         )
         res.status(200).json({
             mensagem: "usuário editado",
