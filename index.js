@@ -10,10 +10,10 @@ const servidor = express()
 servidor.use(express.json())
 
 //variavel global
-const PORT = 4200
-const DATABASE_NAME = "Cluster0"
-const DATABASE_USER = "teomendonca1510"
-const DATABASE_PASSWORD = "adm"
+const PORT = process.env.PORT
+const DATABASE_NAME = process.env.DB_NAME
+const DATABASE_USER = process.env.DB_USER
+const DATABASE_PASSWORD = process.env.DB_PASS
 const DATABASE_URL = `mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@cluster0.8rneedh.mongodb.net/${DATABASE_NAME}?retryWrites=true&w=majority&appName=Cluster0`
 
 servidor.use("/login", loginController)
