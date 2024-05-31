@@ -11,6 +11,7 @@ require('dotenv').config()
 const userController = require('./controllers/autentication/users')
 const loginController = require('./controllers/login')
 const clientController = require('./controllers/client')
+const todoController = require('./controllers/autentication/todo')
 
 const mongoose = require('mongoose')
 const express = require('express')
@@ -27,6 +28,7 @@ const DATABASE_URL = `mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@cluste
 servidor.use("/login", loginController)
 servidor.use("/users", userController)
 servidor.use("/clients", clientController)
+servidor.use("/todo", todoController)
 
 mongoose.connect(DATABASE_URL)
     .then(() => {
