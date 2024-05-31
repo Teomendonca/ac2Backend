@@ -31,7 +31,37 @@ userController.get("/:email", auth, async (req, res) => {
     }
 })
 
-userController.post("/new",auth, async (req, res) => {
+userController.delete("/:email", auth, async (req, res) => {
+    var email = req.params._id
+
+    try {
+        let user = await UserModel.findOne({ email: email })
+        let dUser = await UserModel.deleteOne(user);
+        res.status(200).json({
+            mensagem: "usuário deletado",
+            dUser: dUser
+        })
+
+    } catch (error) {
+        console.log(`Um erro ocorreu ao deletar usuários. ${error}`)
+        return res.status(500).json({ error: error })
+    }
+
+})
+
+// userController.put("/edit/:id", auth, async (req,res)=>{
+//     const { nome, email, funcao, senha } = req.body;
+
+//     try {
+
+
+//     } catch (error) {
+
+//     }
+
+// })
+
+userController.post("/new", auth, async (req, res) => {
     const { nome, email, funcao, senha } = req.body
     const senhaEncrypt = await bcryptjs.hash(senha, 10)
     var user = {
