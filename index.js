@@ -1,5 +1,13 @@
+/*
+Notes for AC2
+.env content;
+PORT=4200
+DB_NAME="Cluster0"
+DB_USER = "teomendonca1510"
+DB_PASS = "adm"
+JWT_SECRET="admsecret"
+*/
 require('dotenv').config()
-
 const userController = require('./controllers/autentication/users')
 const loginController = require('./controllers/login')
 const clientController = require('./controllers/client')

@@ -31,12 +31,13 @@ userController.get("/:email", auth, async (req, res) => {
     }
 })
 
-userController.post("/new", async (req, res) => {
-    const { nome, email, senha } = req.body
+userController.post("/new",auth, async (req, res) => {
+    const { nome, email, funcao, senha } = req.body
     const senhaEncrypt = await bcryptjs.hash(senha, 10)
     var user = {
         nome: nome,
         email: email,
+        funcao: funcao,
         senha: senhaEncrypt
     }
 
