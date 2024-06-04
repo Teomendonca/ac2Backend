@@ -31,11 +31,11 @@ userController.get("/count", auth, async (req, res) => {
     }
 })
 
-userController.get("/:email", auth, async (req, res) => {
-    var email = req.params.email
+userController.get("/:_id", auth, async (req, res) => {
+    var id = req.params._id
 
     try {
-        let user = await UserModel.findOne({ email: email })
+        let user = await UserModel.findById(id)
         if (!user) {
             return res.status(404).json({ mensagem: "Usuário não encontrado" })
         }
@@ -47,11 +47,11 @@ userController.get("/:email", auth, async (req, res) => {
     }
 })
 
-userController.delete("/:email", auth, async (req, res) => {
-    var email = req.params._id
+userController.delete("/:_id", auth, async (req, res) => {
+    var id = req.params._id
 
     try {
-        let user = await UserModel.findOne({ email: email })
+        let user = await UserModel.findById(id)
         let dUser = await UserModel.deleteOne(user);
         res.status(200).json({
             mensagem: "usuário deletado",
@@ -65,10 +65,10 @@ userController.delete("/:email", auth, async (req, res) => {
 
 })
 
-userController.put("/edit/:email", auth, async (req, res) => {
+userController.put("/edit/:_id", auth, async (req, res) => {
     var id = req.params._id
     try {
-        let user = await UserModel.findOne({ id: id })
+        let user = await UserModel.findById(id)
         let data = await UserModel.updateOne(
             user,
             { $set: req.body }
