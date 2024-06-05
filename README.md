@@ -1,8 +1,10 @@
 # AC2 Backend
 
-##Postman routes: https://documenter.getpostman.com/view/34328071/2sA3Qza8mi
+## Postman routes: 
+https://documenter.getpostman.com/view/34328071/2sA3Qza8mi
 
-##MongoDB Collections:
+
+## MongoDB Collections:
 - Clients:
   
   ![image](https://github.com/Teomendonca/ac2Backend/assets/75329562/f4c39960-4b01-4256-b144-57f092cc8220)
