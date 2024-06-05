@@ -1,13 +1,21 @@
 const ClientModel = require("../models/client")
-const bcryptjs = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const express = require('express')
-
-//Não autenticada 
+const auth = require("../middlewares/authentication")
 
 const clientController = express.Router()
 
-clientController.post("/client", async (req, res) => {
+clientController.get("/", auth, async (req, res) => {
+    try{
+        let client = await ClientModel.find()
+        return res.status(200).json(client)
+
+    } catch(err){
+        console.log(`Erro ao buscar clients ${err}`);
+        return res.status(500).json({error: err})
+    }
+})
+
+clientController.post("/new", async (req, res) => {
     var client = req.body
     try {
         await ClientModel.create(client)
@@ -17,9 +25,10 @@ clientController.post("/client", async (req, res) => {
         })
     } catch (error) {
         console.log(`Erro na criação de Cliente. Erro ${error}`)
-        return res.status(500).json({error: error})
+        return res.status(500).json({ error: error })
     }
 
 })
+
 
 module.exports = clientController
