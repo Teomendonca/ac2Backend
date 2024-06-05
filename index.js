@@ -12,11 +12,12 @@ const userController = require('./controllers/autentication/users')
 const loginController = require('./controllers/login')
 const clientController = require('./controllers/client')
 const todoController = require('./controllers/autentication/todo')
-
+const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 const express = require('express')
 const servidor = express()
 servidor.use(express.json())
+servidor.use(cookieParser())
 
 //variavel global
 const PORT = process.env.PORT

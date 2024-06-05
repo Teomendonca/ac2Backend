@@ -1,9 +1,11 @@
 const UserModel = require("../models/user")
 const bcrypt = require('bcryptjs')
+const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 const express = require('express')
 
 const loginController = express.Router()
+
 
 loginController.post("/", async (req, res) => {
 
@@ -16,6 +18,8 @@ loginController.post("/", async (req, res) => {
 
     if (await bcrypt.compare(senha, user.senha)) {
         const token = jwt.sign({ nome: user.nome, email: user.email }, process.env.JWT_SECRET, { expiresIn: '2d' });
+
+        res.cookie("token",token, {maxAge:172800000})
 
         return res.status(200).json({
             mensagem: ` ${user.nome} logado com sucesso!`,
