@@ -51,8 +51,12 @@ userController.delete("/:_id", auth, async (req, res) => {
     var id = req.params._id
 
     try {
-        let user = await UserModel.findById(id)
-        let dUser = await UserModel.deleteOne(user);
+        // let user = await UserModel.findById(id)
+        // let dUser = await UserModel.deleteOne(user);
+        let dUser = await UserModel.findByIdAndDelete({_id: id});
+        if (!dUser) {
+            return res.status(404).json({ mensagem: "Usuário não encontrada" })
+        }
         res.status(200).json({
             mensagem: "usuário deletado",
             dUser: dUser
