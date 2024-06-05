@@ -35,18 +35,18 @@ todoController.put("/assign/:_id", auth, async (req, res) => {
 
     console.log(req.body);
     console.log(req.params);
-    
+
     try {
         let todoAssign = await TodoModel.findOneAndUpdate(
             { _id: todoid },
             { $set: { assigned: email } },
             { new: true }
         );
-        
+
         if (!todoAssign) {
             return res.status(404).json({ mensagem: "Tarefa não encontrada" })
         }
-        
+
         return res.status(200).json(todoAssign)
 
     } catch (error) {
@@ -76,16 +76,16 @@ todoController.post("/new", auth, async (req, res) => {
 })
 
 // My TODOS
-todoController.get("/my-todo", auth, async (req, res)=>{
+todoController.get("/my-todo", auth, async (req, res) => {
     // const authHeader = req.headers.authorization
     // const [,token] = authHeader.split(' ')
-    
+
     try {
         // const senha = process.env.JWT_SECRET
         // let user = jwt.verify(token, senha)
         let user = req.cookies.loggedUser
-        let myTODO = await TodoModel.find({assigned: user});
-      
+        let myTODO = await TodoModel.find({ assigned: user });
+
         console.log(user);
         return res.status(200).json(myTODO)
 
@@ -96,9 +96,29 @@ todoController.get("/my-todo", auth, async (req, res)=>{
 })
 
 //Edit my TODOS
-todoController.put("/my-todo/edit/:_id", auth, async (req, res)=>{})
+todoController.put("/my-todo/edit/:_id", auth, async (req, res) => {
+    let user = req.cookies.loggedUser
+    let id = req.params._id
+    try {
+        let myTODO = await TodoModel.findOneAndUpdate(
+            { _id: id, assigned: user },
+            { $set: req.body },
+            { new: true }
+        );
+        if (!myTODO) {
+            return res.status(404).json({ mensagem: "Tarefa não encontrada" })
+        }
+
+        return res.status(200).json(myTODO)
+    } catch (error) {
+        console.log(`Erro ao editar my TODOS. ${error}`);
+        return res.status(500).json({ error: error })
+    }
+})
 
 //Delete my TODOS
-todoController.delete("/my-todo/:_id", auth, async (req, res)=>{})
+todoController.delete("/my-todo/:_id", auth, async (req, res) => {
+    
+ })
 
 module.exports = todoController
