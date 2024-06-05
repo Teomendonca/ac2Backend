@@ -6,6 +6,7 @@ const auth = require("../../middlewares/authentication")
 const cookieParser = require('cookie-parser')
 
 const todoController = express.Router()
+todoController.use(auth)
 
 todoController.get("/", auth, async (req, res) => {
     try {
@@ -76,13 +77,14 @@ todoController.post("/new", auth, async (req, res) => {
 
 // My TODOS
 todoController.get("/my-todo", auth, async (req, res)=>{
-    const authHeader = req.headers.authorization
-    const [,token] = authHeader.split(' ')
+    // const authHeader = req.headers.authorization
+    // const [,token] = authHeader.split(' ')
     
     try {
-        const senha = process.env.JWT_SECRET
-        let user = jwt.verify(token, senha)
-        let myTODO = await TodoModel.find({assigned: user.email});
+        // const senha = process.env.JWT_SECRET
+        // let user = jwt.verify(token, senha)
+        let user = req.cookies.loggedUser
+        let myTODO = await TodoModel.find({assigned: user});
       
         console.log(user);
         return res.status(200).json(myTODO)
