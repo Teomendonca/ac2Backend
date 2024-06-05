@@ -111,14 +111,27 @@ todoController.put("/my-todo/edit/:_id", auth, async (req, res) => {
 
         return res.status(200).json(myTODO)
     } catch (error) {
-        console.log(`Erro ao editar my TODOS. ${error}`);
+        console.log(`Erro ao editar TODOSdo usuário. ${error}`);
         return res.status(500).json({ error: error })
     }
 })
 
 //Delete my TODOS
 todoController.delete("/my-todo/:_id", auth, async (req, res) => {
-    
+    let user = req.cookies.loggedUser
+    let id = req.params._id
+    try {
+        let deleted = await TodoModel.findByIdAndDelete(
+            { _id: id, assigned: user }
+        )
+        if (!deleted) {
+            return res.status(404).json({ mensagem: "Tarefa não encontrada" })
+        }
+        return res.status(200).json(deleted)
+    } catch (error) {
+        console.log(`Erro ao deletar TODOS do usuário. ${error}`);
+        return res.status(500).json({ error: error })
+    }
  })
 
 module.exports = todoController
